@@ -17,7 +17,8 @@ L'objectif est de démontrer, dans un environnement pédagogique contrôlé, com
 
    3. Réaliser un pivot (mouvement latéral) à travers le réseau interne pour atteindre les postes de travail et les téléphones VoIP
 
-> **Avertissement** — See [DISCLAIMER.md](DISCLAIMER.md). TCe lab est strictement éducatif. Toutes les simulations sont effectuées dans Cisco Packet Tracer — aucun système réel n'est impliqué.
+> **Avertissement** 
+See [Disclaimer.md](Disclaimer.md). TCe lab est strictement éducatif. Toutes les simulations sont effectuées dans Cisco Packet Tracer — aucun système réel n'est impliqué.
 
 ---
 
