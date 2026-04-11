@@ -5,6 +5,15 @@
 ![Level](https://img.shields.io/badge/Level-Intermediate-orange)
 ![Status](https://img.shields.io/badge/Status-Complete-green)
 
+## Contexte
+
+Les PME constituent la cible principale des attaques IoT en France : 
+équipements déployés sans politique de sécurité, firmwares non mis à jour, 
+absence de segmentation réseau. Ce lab simule le scénario le plus fréquent — 
+une caméra IP exposée comme vecteur d'entrée vers le réseau interne.
+
+Sources : ANSSI Panorama de la cybermenace 2024 · CESIN Baromètre 2024
+
 ## Présentation
 
 Ce lab simule un scénario d'attaque réaliste ciblant le réseau d'une Petite et Moyenne Entreprise (PME) via des objets connectés (IoT) mal sécurisés — plus précisément des caméras IP exposées sur Internet sans segmentation réseau adéquate.
@@ -18,7 +27,7 @@ L'objectif est de démontrer, dans un environnement pédagogique contrôlé, com
    3. Réaliser un pivot (mouvement latéral) à travers le réseau interne pour atteindre les postes de travail et les téléphones VoIP
 
 > **Avertissement** 
-See [Disclaimer.md](Disclaimer.md). TCe lab est strictement éducatif. Toutes les simulations sont effectuées dans Cisco Packet Tracer — aucun système réel n'est impliqué.
+See [Disclaimer.md](Disclaimer.md). Ce lab est strictement éducatif. Toutes les simulations sont effectuées dans Cisco Packet Tracer — aucun système réel n'est impliqué.
 
 ---
 
@@ -64,7 +73,7 @@ Hacker-External# ping 192.168.30.50   → Reply  ✅
 ![Ping Hacker to Webcam](screenshots/02-ping-hacker-webcam.png)
 
 ### Phase 2 - Accès à l'interface d'administration
-L'attaquant ouvre un navigateur et se rend sur `http://192.168.30.50`. TLe panneau d'administration se charge avec les identifiants par défaut (admin/admin) toujours actifs: une erreur de configuration critique présente sur de nombreuses caméras IP grand public.
+L'attaquant ouvre un navigateur et se rend sur `http://192.168.30.50`. Le panneau d'administration se charge avec les identifiants par défaut (admin/admin) toujours actifs: une erreur de configuration critique présente sur de nombreuses caméras IP grand public.
 
 ### Phase 3 - Mouvement latéral (Pivot VLAN)
 En l'absence de filtrage ACL entre le VLAN 30 (IoT) et le VLAN 10 (postes de travail), l'attaquant pivote depuis le segment compromis vers le réseau interne des bureaux.
@@ -83,7 +92,7 @@ Depuis le VLAN IoT, l'attaquant peut désormais atteindre tous les postes de tra
 
 ---
 
-## VVulnérabilités démontrées
+## Vulnérabilités démontrées
 
 | # | Vulnerabilité | Impact | Référence CWE |
 |---|---|---|---|
@@ -93,6 +102,17 @@ Depuis le VLAN IoT, l'attaquant peut désormais atteindre tous les postes de tra
 | 4 | VoIP non chiffrée (SIP UDP 5060) | Interception d'appels possible depuis le LAN | CWE-311 |
 
 ![VLAN Config](screenshots/04-vlan-config.png)
+
+---
+
+## Impact métier estimé
+
+| Vulnérabilité          | Impact opérationnel              | Coût estimé PME        |
+|------------------------|----------------------------------|------------------------|
+| Accès WAN non filtré   | Prise de contrôle caméras        | Atteinte image / RGPD  |
+| Pivot VLAN 30 → 10     | Accès postes de travail, données | Ransomware potentiel   |
+| VoIP non chiffrée      | Écoute d'appels internes         | Espionnage industriel  |
+| Identifiants par défaut| Persistance attaquant            | Exfiltration de données|
 
 ---
 
@@ -134,7 +154,7 @@ Déployer SRTP + TLS sur tous les téléphones IP. Utiliser l'authentification d
 2. Ouvrir `pme_iot_attack.pkt` dans Packet Tracer
 3. La topologie se charge en mode **Realtime** ,  tous les liens doivent être verts
 4. Pour rejouer la simulation d'attaque : passer en mode **Simulation**(en bas à droite)
-5. Cliquer sur **Play** et oobservez les paquets ICMP traverser le réseau depuis Hacker-External jusqu'à Laptop-A sans aucun filtrage
+5. Cliquer sur **Play** et observer les paquets ICMP traverser le réseau depuis Hacker-External jusqu'à Laptop-A sans aucun filtrage
 
 ### Reproduire l'attaque manuellement
 ```
@@ -172,5 +192,11 @@ Une suite logique pour ce lab serait de le reconstruire sous **GNS3 + machines v
 - [Cisco IOS VLAN Security Best Practices](https://www.cisco.com/c/en/us/support/docs/lan-switching/8021q/17056-741-4.html)
 
 ---
+
+## Labs connexes
+
+- [network-lab-multisite](https://github.com/solenefig-lab/network-lab-multisite) — 
+  Infrastructure réseau multi-site (VLAN/NAT/DHCP) — 
+  socle technique de ce scénario d'attaque
 
 *Lab conçu et documenté dans le cadre d'un projet de portfolio en cybersécurité.*
